@@ -1,0 +1,12 @@
+#!/bin/tcsh -f
+#
+# Chris Nosowsky
+# Computer Project 2
+#
+# Takes census data for counties in MI. User specifies county on second token.
+# Receives a county name in MI.
+# Returns the specified county data and sorts it by population lowest to highest
+echo -n  'Census Data for: '
+echo $argv[1]
+cat /user/cse325/Projects/project02.headers
+grep "| $argv[1]" /user/cse325/Projects/project02.data | sort -t '|' -k3,3n -k1,1b

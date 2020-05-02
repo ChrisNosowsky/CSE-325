@@ -1,0 +1,21 @@
+#!/bin/tcsh -f
+# 
+# Chris Nosowsky
+# Computer Project 2
+#
+# Lists census data for a list of specified counties
+# Takes in a list of countys in MI
+# Returns a sorted list of census data for specified counties
+#
+@ i = 1
+foreach county ($argv[*]:q)
+  echo -n 'Census Data for: '
+  echo "$county county"
+  cat /user/cse325/Projects/project02.headers
+  grep "| $county" /user/cse325/Projects/project02.data | sort -t '|' -k3,3n -k1,1b
+  if ($#argv != $i) then
+    echo
+    echo
+  endif
+  @ i = $i + 1
+end

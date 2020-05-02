@@ -1,0 +1,25 @@
+#!/bin/tcsh -f
+#
+# Chris Nosowsky
+# Computer Project 2
+#
+# Takes Top N census data by highest population and takes subset of only
+# townships, cities or both
+# Receives number N to specify how many counties to list and then a character
+# of "A", "C", or "T" to specify a subset of names
+# Returns census data from the top N highest populations as townships, cities,
+# or both
+if ($argv[2] == "A") then
+  set sub = "Township & City"
+else if ($argv[2] == "T") then
+  set sub = "Township"
+else
+  set sub = "City"
+endif
+echo 'Top' $1 'Highest Population by' $sub
+cat /user/cse325/Projects/project02.headers
+if ($argv[2] == "A") then
+  sort -t '|' -k3,3nr -k1,1b /user/cse325/Projects/project02.data | head -$argv[1]
+else
+  grep -i $sub /user/cse325/Projects/project02.data | sort -t '|' -k3,3nr -k1,1b| head -$argv[1]
+endif

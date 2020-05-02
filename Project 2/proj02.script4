@@ -1,0 +1,36 @@
+#!/bin/tcsh -f
+#
+# Chris Nosowsky
+# Computer Project 2
+# 
+# Takes Top N census data by highest population and takes subset of only
+# townships, cities or both. This shell script error checks.
+# Receives a integer N to specify how many cities/townships to return and
+# receives "A", "T", or "C" to specify subset data
+# Returns the top N census data sorted by highest population and subsetted by
+# character denotion
+if ($#argv != 2) then
+  echo 'usage' $0 'need specified number of census units and character string ("C", "A", or "T") to specify subset of census units'
+else
+  if ($argv[1] < 1) then
+    echo 'error: please enter a positive integer for second token!'
+    exit 1
+  endif
+  if ($argv[2] == "A") then
+    set sub = "Township & City"
+  else if ($argv[2] == "T") then
+    set sub = "Township"
+  else if ($argv[2] ==  "C") then
+    set sub = "City"
+  else
+    echo 'error: invalid character string'
+    exit 1
+  endif
+  echo 'Top' $1 'Highest Population by' $sub
+  cat /user/cse325/Projects/project02.headers
+  if ($argv[2] == "A") then
+    sort -t '|' -k3,3nr -k1,1b /user/cse325/Projects/project02.data | head -$argv[1]
+  else
+    grep -i $sub /user/cse325/Projects/project02.data | sort -t '|' -k3,3nr -k1,1b| head -$argv[1]
+  endif
+endif
